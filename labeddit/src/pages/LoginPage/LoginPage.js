@@ -127,7 +127,7 @@ const LoginPage = () => {
                   borderColor={'#FE7E02'}  
                   borderRadius={'full'}               
                   color={'#FE7E02'}                  
-                  onClick={goToSignUpPage(navigate)}
+                  onClick={() => goToSignUpPage(navigate)}
                 >
                   {isLoading ? <Spinner /> : "Crie uma conta!"}
                 </Button>

@@ -1,8 +1,7 @@
 import {
   Flex,
   Box,
-  FormControl,
-  FormLabel,
+  FormControl,  
   Input,
   InputGroup,
   HStack,
@@ -13,7 +12,8 @@ import {
   Text,
   useColorModeValue,
   Link,
-  Spinner
+  Spinner,
+  Checkbox
 } from '@chakra-ui/react';
 
 import { useContext, useEffect, useState } from 'react';
@@ -23,6 +23,7 @@ import { goToFeedPage, goToLoginPage } from '../../routes/coordinator';
 import axios from 'axios';
 import { BASE_URL } from '../../constants/url';
 import { GlobalContext } from '../../contexts/GlobalContext';
+import Header from '../../components/Header';
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,8 +41,7 @@ const SignUpPage = () => {
   const [ isLoading, setIsLoading ] = useState(false)
 
   const [ form, setForm ] = useState({
-    nome: "",
-    sobrenome:"",
+    nome: "",    
     email:"",
     senha:""
   })
@@ -64,12 +64,12 @@ const SignUpPage = () => {
       }
 
       const response = await axios.post(`
-        ${BASE_URL}/user/signup`,
+        ${BASE_URL}/users/signup`,
         body
       )
 
       console.log(response)
-      window.localStorage.setItem("cookenu-token", response.data.token)
+      window.localStorage.setItem("labeddit-token", response.data.token)
 
       context.setIsAuth(true)
       goToFeedPage(navigate)
@@ -83,48 +83,36 @@ const SignUpPage = () => {
   }
 
   return (
+    <>
+    <Header/>
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack mx={'0'} maxW={'md'} py={3} px={5}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'} textAlign={'center'}>
-            Cadastre-se
-          </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
-            para aproveitar as melhores receitas ✌️
-          </Text>
+          <Heading fontSize={'4xl'} textAlign={'justified'} color={'#373737'} mx={'20px'} pb={'10rem'}>
+            Olá, boas vindas ao LabEddit ;)
+          </Heading>          
         </Stack>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
           p={8}>
-          <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>Nome</FormLabel>
-                  <Input type="text" name="nome" autoComplete="off" value={form.nome} onChange={onChangeForm}/>
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Sobrenome</FormLabel>
-                  <Input type="text" name="sobrenome" autoComplete="off" value={form.sobrenome} onChange={onChangeForm}/>
-                </FormControl>
-              </Box>
+          <Stack spacing={4} pb={'5rem'}>
+            <HStack>              
+                <FormControl id="firstName" isRequired>                  
+                  <Input type="text" name="nome" autoComplete="off" value={form.nome} onChange={onChangeForm} placeholder={'Nome'}/>
+                </FormControl>             
             </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Endereço de E-mail</FormLabel>
-              <Input type="email" name="email" autoComplete="off" value={form.email} onChange={onChangeForm}/>
+            <FormControl id="email" isRequired>              
+              <Input type="email" name="email" autoComplete="off" value={form.email} onChange={onChangeForm} placeholder={'E-mail'}/>
             </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Senha</FormLabel>
+            <FormControl id="password" isRequired>              
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} name="senha" value={form.senha} onChange={onChangeForm}/>
+                <Input type={showPassword ? 'text' : 'password'} name="senha" value={form.senha} onChange={onChangeForm} placeholder={'Senha'}/>
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -136,29 +124,29 @@ const SignUpPage = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={2}>
+            <Stack spacing={5} pt={2}>
+              <Text fontSize={'14px'}>Ao continuar, você concorda com o nosso <Link color={'#4088CB'}>Contrato de usuário</Link> e nossa <Link color={'#4088CB'}>Política de Privacidade</Link>.</Text>
+              <Checkbox size={'sm'}>Eu concordo em receber e-mails sobre coisas legais do LabEddit</Checkbox>
               <Button
                 loadingText="Submitting"
                 size="lg"
-                bg={'blue.400'}
-                color={'white'}
+                bgGradient={'linear(to-r, #FF6489, #F9B24E)'}                  
+                color={'white'}  
+                border={'1px'}
+                borderRadius={'full'}
                 _hover={{
-                  bg: 'blue.500',
+                  bgGradient: 'linear(to-r, #FD7E75, #FB9862)'                   
                 }}
-                onClick={signUp}
+                onClick={signUp}                
                 >
                 {isLoading ? <Spinner /> : "Cadastrar"}
               </Button>
-            </Stack>
-            <Stack pt={6}>
-              <Text align={'center'}>
-                Já possui cadastro? <Link color={'blue.400'} onClick={() => goToLoginPage(navigate)}>Login</Link>
-              </Text>
-            </Stack>
+            </Stack>            
           </Stack>
         </Box>
       </Stack>
     </Flex>
+    </>
   );
 }
 
