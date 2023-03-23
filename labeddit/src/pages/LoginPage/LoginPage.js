@@ -55,11 +55,11 @@ const LoginPage = () => {
       }
 
       const response = await axios.post(`
-          ${BASE_URL}/user/login`,
+          ${BASE_URL}/users/login`,
         body
       )
 
-      window.localStorage.setItem("cookenu-token", response.data.token)
+      window.localStorage.setItem("labeddit-token", response.data.token)
 
       setIsLoading(false)
       context.setIsAuth(true)

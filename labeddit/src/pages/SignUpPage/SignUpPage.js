@@ -19,7 +19,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
-import { goToFeedPage, goToLoginPage } from '../../routes/coordinator';
+import { goToFeedPage } from '../../routes/coordinator';
 import axios from 'axios';
 import { BASE_URL } from '../../constants/url';
 import { GlobalContext } from '../../contexts/GlobalContext';
